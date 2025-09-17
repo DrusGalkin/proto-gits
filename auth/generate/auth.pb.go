@@ -369,16 +369,11 @@ const file_auth_proto_rawDesc = "" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1a\n" +
 	"\bpassword\x18\x03 \x01(\tR\bpassword\"\x1d\n" +
 	"\vRegResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id20\n" +
-	"\n" +
-	"LogService\x12\"\n" +
-	"\x05Login\x12\v.LogRequest\x1a\f.LogResponse27\n" +
-	"\n" +
-	"JWTService\x12)\n" +
-	"\aRefresh\x12\r.TokenRequest\x1a\x0f.TokensResponse23\n" +
-	"\n" +
-	"RegService\x12%\n" +
-	"\bRegister\x12\v.RegRequest\x1a\f.RegResponseB\rZ\v../generateb\x06proto3"
+	"\x02id\x18\x01 \x01(\x03R\x02id2\x83\x01\n" +
+	"\vAuthService\x12)\n" +
+	"\aRefresh\x12\r.TokenRequest\x1a\x0f.TokensResponse\x12%\n" +
+	"\bRegister\x12\v.RegRequest\x1a\f.RegResponse\x12\"\n" +
+	"\x05Login\x12\v.LogRequest\x1a\f.LogResponseB\rZ\v../generateb\x06proto3"
 
 var (
 	file_auth_proto_rawDescOnce sync.Once
@@ -402,12 +397,12 @@ var file_auth_proto_goTypes = []any{
 	(*RegResponse)(nil),    // 5: RegResponse
 }
 var file_auth_proto_depIdxs = []int32{
-	0, // 0: LogService.Login:input_type -> LogRequest
-	2, // 1: JWTService.Refresh:input_type -> TokenRequest
-	4, // 2: RegService.Register:input_type -> RegRequest
-	1, // 3: LogService.Login:output_type -> LogResponse
-	3, // 4: JWTService.Refresh:output_type -> TokensResponse
-	5, // 5: RegService.Register:output_type -> RegResponse
+	2, // 0: AuthService.Refresh:input_type -> TokenRequest
+	4, // 1: AuthService.Register:input_type -> RegRequest
+	0, // 2: AuthService.Login:input_type -> LogRequest
+	3, // 3: AuthService.Refresh:output_type -> TokensResponse
+	5, // 4: AuthService.Register:output_type -> RegResponse
+	1, // 5: AuthService.Login:output_type -> LogResponse
 	3, // [3:6] is the sub-list for method output_type
 	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -428,7 +423,7 @@ func file_auth_proto_init() {
 			NumEnums:      0,
 			NumMessages:   6,
 			NumExtensions: 0,
-			NumServices:   3,
+			NumServices:   1,
 		},
 		GoTypes:           file_auth_proto_goTypes,
 		DependencyIndexes: file_auth_proto_depIdxs,

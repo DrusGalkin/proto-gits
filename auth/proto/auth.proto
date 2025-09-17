@@ -2,16 +2,11 @@ syntax = "proto3";
 
 option go_package = "../generate";
 
-service LogService {
-  rpc Login(LogRequest) returns (LogResponse);
-}
 
-service JWTService {
+service AuthService {
   rpc Refresh(TokenRequest) returns (TokensResponse);
-}
-
-service RegService {
   rpc Register(RegRequest) returns (RegResponse);
+  rpc Login(LogRequest) returns (LogResponse);
 }
 
 message LogRequest {

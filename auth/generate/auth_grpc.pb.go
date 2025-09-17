@@ -19,305 +19,177 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LogService_Login_FullMethodName = "/LogService/Login"
+	AuthService_Refresh_FullMethodName  = "/AuthService/Refresh"
+	AuthService_Register_FullMethodName = "/AuthService/Register"
+	AuthService_Login_FullMethodName    = "/AuthService/Login"
 )
 
-// LogServiceClient is the client API for LogService service.
+// AuthServiceClient is the client API for AuthService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type LogServiceClient interface {
+type AuthServiceClient interface {
+	Refresh(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokensResponse, error)
+	Register(ctx context.Context, in *RegRequest, opts ...grpc.CallOption) (*RegResponse, error)
 	Login(ctx context.Context, in *LogRequest, opts ...grpc.CallOption) (*LogResponse, error)
 }
 
-type logServiceClient struct {
+type authServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewLogServiceClient(cc grpc.ClientConnInterface) LogServiceClient {
-	return &logServiceClient{cc}
+func NewAuthServiceClient(cc grpc.ClientConnInterface) AuthServiceClient {
+	return &authServiceClient{cc}
 }
 
-func (c *logServiceClient) Login(ctx context.Context, in *LogRequest, opts ...grpc.CallOption) (*LogResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LogResponse)
-	err := c.cc.Invoke(ctx, LogService_Login_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// LogServiceServer is the server API for LogService service.
-// All implementations must embed UnimplementedLogServiceServer
-// for forward compatibility.
-type LogServiceServer interface {
-	Login(context.Context, *LogRequest) (*LogResponse, error)
-	mustEmbedUnimplementedLogServiceServer()
-}
-
-// UnimplementedLogServiceServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedLogServiceServer struct{}
-
-func (UnimplementedLogServiceServer) Login(context.Context, *LogRequest) (*LogResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
-}
-func (UnimplementedLogServiceServer) mustEmbedUnimplementedLogServiceServer() {}
-func (UnimplementedLogServiceServer) testEmbeddedByValue()                    {}
-
-// UnsafeLogServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to LogServiceServer will
-// result in compilation errors.
-type UnsafeLogServiceServer interface {
-	mustEmbedUnimplementedLogServiceServer()
-}
-
-func RegisterLogServiceServer(s grpc.ServiceRegistrar, srv LogServiceServer) {
-	// If the following call pancis, it indicates UnimplementedLogServiceServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
-	s.RegisterService(&LogService_ServiceDesc, srv)
-}
-
-func _LogService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LogRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(LogServiceServer).Login(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: LogService_Login_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LogServiceServer).Login(ctx, req.(*LogRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// LogService_ServiceDesc is the grpc.ServiceDesc for LogService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var LogService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "LogService",
-	HandlerType: (*LogServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Login",
-			Handler:    _LogService_Login_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "auth.proto",
-}
-
-const (
-	JWTService_Refresh_FullMethodName = "/JWTService/Refresh"
-)
-
-// JWTServiceClient is the client API for JWTService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type JWTServiceClient interface {
-	Refresh(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokensResponse, error)
-}
-
-type jWTServiceClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewJWTServiceClient(cc grpc.ClientConnInterface) JWTServiceClient {
-	return &jWTServiceClient{cc}
-}
-
-func (c *jWTServiceClient) Refresh(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokensResponse, error) {
+func (c *authServiceClient) Refresh(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokensResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TokensResponse)
-	err := c.cc.Invoke(ctx, JWTService_Refresh_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, AuthService_Refresh_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// JWTServiceServer is the server API for JWTService service.
-// All implementations must embed UnimplementedJWTServiceServer
-// for forward compatibility.
-type JWTServiceServer interface {
-	Refresh(context.Context, *TokenRequest) (*TokensResponse, error)
-	mustEmbedUnimplementedJWTServiceServer()
+func (c *authServiceClient) Register(ctx context.Context, in *RegRequest, opts ...grpc.CallOption) (*RegResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RegResponse)
+	err := c.cc.Invoke(ctx, AuthService_Register_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedJWTServiceServer must be embedded to have
+func (c *authServiceClient) Login(ctx context.Context, in *LogRequest, opts ...grpc.CallOption) (*LogResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LogResponse)
+	err := c.cc.Invoke(ctx, AuthService_Login_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// AuthServiceServer is the server API for AuthService service.
+// All implementations must embed UnimplementedAuthServiceServer
+// for forward compatibility.
+type AuthServiceServer interface {
+	Refresh(context.Context, *TokenRequest) (*TokensResponse, error)
+	Register(context.Context, *RegRequest) (*RegResponse, error)
+	Login(context.Context, *LogRequest) (*LogResponse, error)
+	mustEmbedUnimplementedAuthServiceServer()
+}
+
+// UnimplementedAuthServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedJWTServiceServer struct{}
+type UnimplementedAuthServiceServer struct{}
 
-func (UnimplementedJWTServiceServer) Refresh(context.Context, *TokenRequest) (*TokensResponse, error) {
+func (UnimplementedAuthServiceServer) Refresh(context.Context, *TokenRequest) (*TokensResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Refresh not implemented")
 }
-func (UnimplementedJWTServiceServer) mustEmbedUnimplementedJWTServiceServer() {}
-func (UnimplementedJWTServiceServer) testEmbeddedByValue()                    {}
+func (UnimplementedAuthServiceServer) Register(context.Context, *RegRequest) (*RegResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedAuthServiceServer) Login(context.Context, *LogRequest) (*LogResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
+func (UnimplementedAuthServiceServer) testEmbeddedByValue()                     {}
 
-// UnsafeJWTServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to JWTServiceServer will
+// UnsafeAuthServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AuthServiceServer will
 // result in compilation errors.
-type UnsafeJWTServiceServer interface {
-	mustEmbedUnimplementedJWTServiceServer()
+type UnsafeAuthServiceServer interface {
+	mustEmbedUnimplementedAuthServiceServer()
 }
 
-func RegisterJWTServiceServer(s grpc.ServiceRegistrar, srv JWTServiceServer) {
-	// If the following call pancis, it indicates UnimplementedJWTServiceServer was
+func RegisterAuthServiceServer(s grpc.ServiceRegistrar, srv AuthServiceServer) {
+	// If the following call pancis, it indicates UnimplementedAuthServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&JWTService_ServiceDesc, srv)
+	s.RegisterService(&AuthService_ServiceDesc, srv)
 }
 
-func _JWTService_Refresh_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AuthService_Refresh_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TokenRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(JWTServiceServer).Refresh(ctx, in)
+		return srv.(AuthServiceServer).Refresh(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: JWTService_Refresh_FullMethodName,
+		FullMethod: AuthService_Refresh_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JWTServiceServer).Refresh(ctx, req.(*TokenRequest))
+		return srv.(AuthServiceServer).Refresh(ctx, req.(*TokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// JWTService_ServiceDesc is the grpc.ServiceDesc for JWTService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var JWTService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "JWTService",
-	HandlerType: (*JWTServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Refresh",
-			Handler:    _JWTService_Refresh_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "auth.proto",
-}
-
-const (
-	RegService_Register_FullMethodName = "/RegService/Register"
-)
-
-// RegServiceClient is the client API for RegService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type RegServiceClient interface {
-	Register(ctx context.Context, in *RegRequest, opts ...grpc.CallOption) (*RegResponse, error)
-}
-
-type regServiceClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewRegServiceClient(cc grpc.ClientConnInterface) RegServiceClient {
-	return &regServiceClient{cc}
-}
-
-func (c *regServiceClient) Register(ctx context.Context, in *RegRequest, opts ...grpc.CallOption) (*RegResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RegResponse)
-	err := c.cc.Invoke(ctx, RegService_Register_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// RegServiceServer is the server API for RegService service.
-// All implementations must embed UnimplementedRegServiceServer
-// for forward compatibility.
-type RegServiceServer interface {
-	Register(context.Context, *RegRequest) (*RegResponse, error)
-	mustEmbedUnimplementedRegServiceServer()
-}
-
-// UnimplementedRegServiceServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedRegServiceServer struct{}
-
-func (UnimplementedRegServiceServer) Register(context.Context, *RegRequest) (*RegResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
-}
-func (UnimplementedRegServiceServer) mustEmbedUnimplementedRegServiceServer() {}
-func (UnimplementedRegServiceServer) testEmbeddedByValue()                    {}
-
-// UnsafeRegServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to RegServiceServer will
-// result in compilation errors.
-type UnsafeRegServiceServer interface {
-	mustEmbedUnimplementedRegServiceServer()
-}
-
-func RegisterRegServiceServer(s grpc.ServiceRegistrar, srv RegServiceServer) {
-	// If the following call pancis, it indicates UnimplementedRegServiceServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
-	s.RegisterService(&RegService_ServiceDesc, srv)
-}
-
-func _RegService_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AuthService_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RegRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RegServiceServer).Register(ctx, in)
+		return srv.(AuthServiceServer).Register(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RegService_Register_FullMethodName,
+		FullMethod: AuthService_Register_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RegServiceServer).Register(ctx, req.(*RegRequest))
+		return srv.(AuthServiceServer).Register(ctx, req.(*RegRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// RegService_ServiceDesc is the grpc.ServiceDesc for RegService service.
+func _AuthService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_Login_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).Login(ctx, req.(*LogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var RegService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "RegService",
-	HandlerType: (*RegServiceServer)(nil),
+var AuthService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "AuthService",
+	HandlerType: (*AuthServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "Refresh",
+			Handler:    _AuthService_Refresh_Handler,
+		},
+		{
 			MethodName: "Register",
-			Handler:    _RegService_Register_Handler,
+			Handler:    _AuthService_Register_Handler,
+		},
+		{
+			MethodName: "Login",
+			Handler:    _AuthService_Login_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
