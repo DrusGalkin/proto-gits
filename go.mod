@@ -1,4 +1,4 @@
-module github.com/DrusGalkin/proto-git
+module github.com/DrusGalkin/proto-gits
 
 go 1.25.1
 
