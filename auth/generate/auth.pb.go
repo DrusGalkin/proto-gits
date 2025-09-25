@@ -475,7 +475,8 @@ func (x *ValidateTokenRequest) GetToken() string {
 
 type ValidateTokenResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Valid         bool                   `protobuf:"varint,1,opt,name=valid,proto3" json:"valid,omitempty"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -510,11 +511,18 @@ func (*ValidateTokenResponse) Descriptor() ([]byte, []int) {
 	return file_auth_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *ValidateTokenResponse) GetValid() bool {
+func (x *ValidateTokenResponse) GetId() int64 {
 	if x != nil {
-		return x.Valid
+		return x.Id
 	}
-	return false
+	return 0
+}
+
+func (x *ValidateTokenResponse) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
 }
 
 var File_auth_proto protoreflect.FileDescriptor
@@ -552,9 +560,10 @@ const file_auth_proto_rawDesc = "" +
 	"\vOutResponse\x12\x14\n" +
 	"\x05exist\x18\x01 \x01(\bR\x05exist\",\n" +
 	"\x14ValidateTokenRequest\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"-\n" +
-	"\x15ValidateTokenResponse\x12\x14\n" +
-	"\x05valid\x18\x01 \x01(\bR\x05valid2\xe5\x01\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"=\n" +
+	"\x15ValidateTokenResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email2\xe5\x01\n" +
 	"\vAuthService\x12)\n" +
 	"\aRefresh\x12\r.TokenRequest\x1a\x0f.TokensResponse\x12%\n" +
 	"\bRegister\x12\v.RegRequest\x1a\f.RegResponse\x12\"\n" +
