@@ -55,5 +55,6 @@ message ValidateTokenRequest {
 }
 
 message ValidateTokenResponse {
-  bool valid = 1;
+  int64 id = 1;
+  string email = 2;
 }
