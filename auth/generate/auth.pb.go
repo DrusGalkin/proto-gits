@@ -525,6 +525,94 @@ func (x *ValidateTokenResponse) GetEmail() string {
 	return ""
 }
 
+type IDRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IDRequest) Reset() {
+	*x = IDRequest{}
+	mi := &file_auth_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IDRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IDRequest) ProtoMessage() {}
+
+func (x *IDRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IDRequest.ProtoReflect.Descriptor instead.
+func (*IDRequest) Descriptor() ([]byte, []int) {
+	return file_auth_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *IDRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type IsAdminResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IsAdmin       bool                   `protobuf:"varint,1,opt,name=isAdmin,proto3" json:"isAdmin,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IsAdminResponse) Reset() {
+	*x = IsAdminResponse{}
+	mi := &file_auth_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IsAdminResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IsAdminResponse) ProtoMessage() {}
+
+func (x *IsAdminResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IsAdminResponse.ProtoReflect.Descriptor instead.
+func (*IsAdminResponse) Descriptor() ([]byte, []int) {
+	return file_auth_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *IsAdminResponse) GetIsAdmin() bool {
+	if x != nil {
+		return x.IsAdmin
+	}
+	return false
+}
+
 var File_auth_proto protoreflect.FileDescriptor
 
 const file_auth_proto_rawDesc = "" +
@@ -563,14 +651,20 @@ const file_auth_proto_rawDesc = "" +
 	"\x05token\x18\x01 \x01(\tR\x05token\"=\n" +
 	"\x15ValidateTokenResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email2\xe5\x01\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\"\x1b\n" +
+	"\tIDRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"+\n" +
+	"\x0fIsAdminResponse\x12\x18\n" +
+	"\aisAdmin\x18\x01 \x01(\bR\aisAdmin2\x8e\x02\n" +
 	"\vAuthService\x12)\n" +
 	"\aRefresh\x12\r.TokenRequest\x1a\x0f.TokensResponse\x12%\n" +
 	"\bRegister\x12\v.RegRequest\x1a\f.RegResponse\x12\"\n" +
 	"\x05Login\x12\v.LogRequest\x1a\f.LogResponse\x12#\n" +
 	"\x06Logout\x12\v.OutRequest\x1a\f.OutResponse\x12;\n" +
 	"\n" +
-	"ValidToken\x12\x15.ValidateTokenRequest\x1a\x16.ValidateTokenResponseB\rZ\v../generateb\x06proto3"
+	"ValidToken\x12\x15.ValidateTokenRequest\x1a\x16.ValidateTokenResponse\x12'\n" +
+	"\aIsAdmin\x12\n" +
+	".IDRequest\x1a\x10.IsAdminResponseB\rZ\v../generateb\x06proto3"
 
 var (
 	file_auth_proto_rawDescOnce sync.Once
@@ -584,7 +678,7 @@ func file_auth_proto_rawDescGZIP() []byte {
 	return file_auth_proto_rawDescData
 }
 
-var file_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_auth_proto_goTypes = []any{
 	(*LogRequest)(nil),            // 0: LogRequest
 	(*LogResponse)(nil),           // 1: LogResponse
@@ -596,23 +690,27 @@ var file_auth_proto_goTypes = []any{
 	(*OutResponse)(nil),           // 7: OutResponse
 	(*ValidateTokenRequest)(nil),  // 8: ValidateTokenRequest
 	(*ValidateTokenResponse)(nil), // 9: ValidateTokenResponse
+	(*IDRequest)(nil),             // 10: IDRequest
+	(*IsAdminResponse)(nil),       // 11: IsAdminResponse
 }
 var file_auth_proto_depIdxs = []int32{
-	2, // 0: AuthService.Refresh:input_type -> TokenRequest
-	4, // 1: AuthService.Register:input_type -> RegRequest
-	0, // 2: AuthService.Login:input_type -> LogRequest
-	6, // 3: AuthService.Logout:input_type -> OutRequest
-	8, // 4: AuthService.ValidToken:input_type -> ValidateTokenRequest
-	3, // 5: AuthService.Refresh:output_type -> TokensResponse
-	5, // 6: AuthService.Register:output_type -> RegResponse
-	1, // 7: AuthService.Login:output_type -> LogResponse
-	7, // 8: AuthService.Logout:output_type -> OutResponse
-	9, // 9: AuthService.ValidToken:output_type -> ValidateTokenResponse
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2,  // 0: AuthService.Refresh:input_type -> TokenRequest
+	4,  // 1: AuthService.Register:input_type -> RegRequest
+	0,  // 2: AuthService.Login:input_type -> LogRequest
+	6,  // 3: AuthService.Logout:input_type -> OutRequest
+	8,  // 4: AuthService.ValidToken:input_type -> ValidateTokenRequest
+	10, // 5: AuthService.IsAdmin:input_type -> IDRequest
+	3,  // 6: AuthService.Refresh:output_type -> TokensResponse
+	5,  // 7: AuthService.Register:output_type -> RegResponse
+	1,  // 8: AuthService.Login:output_type -> LogResponse
+	7,  // 9: AuthService.Logout:output_type -> OutResponse
+	9,  // 10: AuthService.ValidToken:output_type -> ValidateTokenResponse
+	11, // 11: AuthService.IsAdmin:output_type -> IsAdminResponse
+	6,  // [6:12] is the sub-list for method output_type
+	0,  // [0:6] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_auth_proto_init() }
@@ -626,7 +724,7 @@ func file_auth_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_auth_proto_rawDesc), len(file_auth_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

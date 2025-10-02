@@ -9,6 +9,7 @@ service AuthService {
   rpc Login(LogRequest) returns (LogResponse);
   rpc Logout(OutRequest) returns (OutResponse);
   rpc ValidToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+  rpc IsAdmin(IDRequest) returns (IsAdminResponse);
 }
 
 message LogRequest {
@@ -57,4 +58,12 @@ message ValidateTokenRequest {
 message ValidateTokenResponse {
   int64 id = 1;
   string email = 2;
+}
+
+message IDRequest {
+  int64 id = 1;
+}
+
+message IsAdminResponse {
+  bool isAdmin = 1;
 }

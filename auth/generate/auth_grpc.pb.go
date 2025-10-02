@@ -24,6 +24,7 @@ const (
 	AuthService_Login_FullMethodName      = "/AuthService/Login"
 	AuthService_Logout_FullMethodName     = "/AuthService/Logout"
 	AuthService_ValidToken_FullMethodName = "/AuthService/ValidToken"
+	AuthService_IsAdmin_FullMethodName    = "/AuthService/IsAdmin"
 )
 
 // AuthServiceClient is the client API for AuthService service.
@@ -35,6 +36,7 @@ type AuthServiceClient interface {
 	Login(ctx context.Context, in *LogRequest, opts ...grpc.CallOption) (*LogResponse, error)
 	Logout(ctx context.Context, in *OutRequest, opts ...grpc.CallOption) (*OutResponse, error)
 	ValidToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
+	IsAdmin(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*IsAdminResponse, error)
 }
 
 type authServiceClient struct {
@@ -95,6 +97,16 @@ func (c *authServiceClient) ValidToken(ctx context.Context, in *ValidateTokenReq
 	return out, nil
 }
 
+func (c *authServiceClient) IsAdmin(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*IsAdminResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(IsAdminResponse)
+	err := c.cc.Invoke(ctx, AuthService_IsAdmin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServiceServer is the server API for AuthService service.
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type AuthServiceServer interface {
 	Login(context.Context, *LogRequest) (*LogResponse, error)
 	Logout(context.Context, *OutRequest) (*OutResponse, error)
 	ValidToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
+	IsAdmin(context.Context, *IDRequest) (*IsAdminResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -128,6 +141,9 @@ func (UnimplementedAuthServiceServer) Logout(context.Context, *OutRequest) (*Out
 }
 func (UnimplementedAuthServiceServer) ValidToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidToken not implemented")
+}
+func (UnimplementedAuthServiceServer) IsAdmin(context.Context, *IDRequest) (*IsAdminResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsAdmin not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
 func (UnimplementedAuthServiceServer) testEmbeddedByValue()                     {}
@@ -240,6 +256,24 @@ func _AuthService_ValidToken_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthService_IsAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).IsAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_IsAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).IsAdmin(ctx, req.(*IDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +300,10 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidToken",
 			Handler:    _AuthService_ValidToken_Handler,
+		},
+		{
+			MethodName: "IsAdmin",
+			Handler:    _AuthService_IsAdmin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
